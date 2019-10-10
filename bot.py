@@ -15,6 +15,7 @@ class InstagramBot:
     
     def login(self):
         # "//input[@name='username']"
+        # nothing to be added significantly
         # "//input[@name='password']"
         driver = self.driver
         driver.get("https://www.instagram.com")
