@@ -18,6 +18,7 @@ class InstagramBot:
         # nothing to be added significantly
         # still nothing, please merge !
         # i need the goodies badly !
+        # this is the last one :)
         # "//input[@name='password']"
         driver = self.driver
         driver.get("https://www.instagram.com")
