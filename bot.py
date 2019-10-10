@@ -14,7 +14,6 @@ class InstagramBot:
         self.driver.close()
     
     def login(self):
-        # "//a[@href'accounts/login']"
         # "//input[@name='username']"
         # "//input[@name='password']"
         driver = self.driver
