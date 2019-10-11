@@ -23,8 +23,9 @@ class InstagramBot:
     def run(self):
         while True:
             try:
-                # select any random tag from list of hashtags
                 self.login()
+
+                # select any random tag from list of hashtags
                 tag = random.choice(hashtags)
                 self.like_photo(tag)
             except Exception as e:
@@ -78,7 +79,8 @@ class InstagramBot:
                 # building list of unique photos
                 [pic_hrefs.append(href) for href in hrefs_in_view if href not in pic_hrefs]
                 # print("Check: pic href length " + str(len(pic_hrefs)))
-            except Exception:
+            except Exception as e:
+                print(e)
                 continue
 
         # Liking Photos
@@ -92,7 +94,7 @@ class InstagramBot:
                 like_button = lambda: driver.find_element_by_xpath('//span[@aria-label="Like"]').click()
                 like_button().click()
                 for second in reversed(range(0, random.randint(18, 28))):
-                    print("#" + hashtag + ': unique photos left: ' + str(unique_photos) +" | Sleeping " + str(second))
+                    print("#" + hashtag + ': unique photos left: ' + str(unique_photos) + " | Sleeping " + str(second))
                     time.sleep(1)
             except Exception as e:
                 print(e)
