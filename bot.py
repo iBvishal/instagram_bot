@@ -1,16 +1,37 @@
+import time
+import random
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import time
-import random 
-import sys
+
+
+hashtags = ['love', 'photooftheday', 'instagood', 'fashion', 'beautiful', 'happy', 'cute', 'follow', 'me', 'selfie',
+            'summer', 'art', 'friends', 'repost', 'nature', 'fun', 'style', 'smile', 'food', 'instalike', 'family',
+            'travel', 'likeforlike', 'fitness', 'beauty', 'amazing', 'instagram', 'photography', 'photo', 'sun',
+            'music', 'beach', 'sunset', 'dog', 'cat', 'motivation', 'party', 'cool', 'lol', 'design', 'funny',
+            'healthy', 'night', 'instapic', 'lifestyle', 'flowers', 'hot', 'instafood', 'wedding', 'fit', 'black',
+            'pink', 'blue', 'workout', 'holiday', 'home', 'sea', 'winter', 'blessed', 'summer', 'sunkissed']
 
 
 class InstagramBot:
-    def __init__(self, username, password):
+    def __init__(self, username, password, hashtags):
         self.username = username 
         self.password = password
+        self.hashtags = hashtags
         self.driver = webdriver.Firefox()
-    
+
+    def run(self):
+        while True:
+            try:
+                # select any random tag from list of hashtags
+                self.login()
+                tag = random.choice(hashtags)
+                self.like_photo(tag)
+            except Exception as e:
+                print(e)
+                self.close()
+                time.sleep(10)
+
     def close(self):
         self.driver.close()
     
@@ -21,18 +42,18 @@ class InstagramBot:
         # i need the goodies badly !
         # this is the last one :)
         # "//input[@name='password']"
-        driver = self.driver
-        driver.get("https://www.instagram.com")
+
+        self.driver.get("https://www.instagram.com")
         time.sleep(2)
-        login_button = driver.find_element_by_xpath("//a[@href='/accounts/login/?source=auth_switcher']")
+        login_button = self.driver.find_element_by_xpath("//a[@href='/accounts/login/?source=auth_switcher']")
         login_button.click()
         time.sleep(2)
 
-        username_element = driver.find_element_by_xpath("//input[@name='username']")
+        username_element = self.driver.find_element_by_xpath("//input[@name='username']")
         username_element.clear()
         username_element.send_keys(self.username)
 
-        password_element = driver.find_element_by_xpath("//input[@name='password']")
+        password_element = self.driver.find_element_by_xpath("//input[@name='password']")
         password_element.clear()
         password_element.send_keys(self.password)
         password_element.send_keys(Keys.RETURN)
@@ -82,22 +103,6 @@ class InstagramBot:
 if __name__ == '__main__':
     username = "USERNAME"
     password = "PASSWORD"
-    bot = InstagramBot(username, password)
-    bot.login()
-    hashtags = ['love', 'photooftheday', 'instagood', 'fashion', 'beautiful', 'happy', 'cute', 'follow', 'me', 'selfie',
-                'summer', 'art', 'friends', 'repost', 'nature', 'fun', 'style', 'smile', 'food', 'instalike', 'family',
-                'travel', 'likeforlike', 'fitness', 'beauty', 'amazing', 'instagram', 'photography', 'photo', 'sun',
-                'music', 'beach', 'sunset', 'dog', 'cat', 'motivation', 'party', 'cool', 'lol', 'design', 'funny',
-                'healthy', 'night', 'instapic', 'lifestyle', 'flowers', 'hot', 'instafood', 'wedding', 'fit', 'black',
-                'pink', 'blue', 'workout', 'holiday', 'home', 'sea', 'winter', 'blessed', 'summer', 'sunkissed']
-    
-    while True:
-        try:
-            # select any random tag from list of hashtags
-            tag = random.choice(hashtags)
-            bot.like_photo(tag)
-        except Exception:
-            bot.close()
-            time.sleep(10)
-            bot = InstagramBot(username, password)
-            bot.login()
+
+    bot = InstagramBot(username, password, hashtags)
+    bot.run()
